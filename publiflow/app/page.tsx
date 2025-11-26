@@ -69,7 +69,7 @@ export default function Home() {
             <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-fuchsia-500 rounded-3xl blur-2xl opacity-30"></div>
             <div className="relative bg-gray-900 border border-gray-800 rounded-3xl shadow-2xl overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1579735414601-e2a220268579?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://images.unsplash.com/photo-1598910408543-9cc46e9d6d1d?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Ilustração 3D Abstrata de Tecnologia"
                 width={1200}
                 height={600}
@@ -139,7 +139,7 @@ export default function Home() {
               />
               {/* Testemunho 2: Lucas Mkt (LINK CORRIGIDO) */}
               <TestimonialCard
-                image="https://images.unsplash.com/photo-1547425260-76bc0fa4552e?q=80&w=100&h=100&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                image="https://images.unsplash.com/photo-1506794778202-dfa929654546?q=80&w=100&h=100&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Lucas Mkt, @lucas_digital"
                 quote="Meus relatórios agora são feitos em 1 minuto e ficam com uma cara super profissional. As marcas amam a clareza. Essencial para quem é creator!"
               />
