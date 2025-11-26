@@ -94,50 +94,51 @@ export function NewDealDialog() {
                             Cadastre um novo acordo com um parceiro.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="grid gap-4 py-4">
+                    <div className="grid gap-6 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label className="text-right text-gray-300">Parceiro</Label>
+                            <Label className="text-right text-gray-300 font-medium">Parceiro</Label>
                             <Select onValueChange={setSelectedPartner} required>
-                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600">
-                                    <SelectValue placeholder="Selecione..." />
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600 h-10">
+                                    <SelectValue placeholder="Selecione..." className="placeholder:text-gray-500" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-gray-800 border-gray-700 text-white">
                                     {partners.map(p => (
-                                        <SelectItem key={p.id} value={p.id} className="focus:bg-gray-700 focus:text-white">{p.name}</SelectItem>
+                                        <SelectItem key={p.id} value={p.id} className="focus:bg-gray-700 focus:text-white cursor-pointer">{p.name}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label className="text-right text-gray-300">Pagamento</Label>
+                            <Label className="text-right text-gray-300 font-medium">Pagamento</Label>
                             <Select onValueChange={setPaymentType} required>
-                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600">
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600 h-10">
                                     <SelectValue placeholder="Tipo..." />
                                 </SelectTrigger>
                                 <SelectContent className="bg-gray-800 border-gray-700 text-white">
-                                    <SelectItem value="Permuta" className="focus:bg-gray-700 focus:text-white">Permuta</SelectItem>
-                                    <SelectItem value="Dinheiro" className="focus:bg-gray-700 focus:text-white">Dinheiro</SelectItem>
-                                    <SelectItem value="Hibrido" className="focus:bg-gray-700 focus:text-white">Híbrido</SelectItem>
+                                    <SelectItem value="Permuta" className="focus:bg-gray-700 focus:text-white cursor-pointer">Permuta</SelectItem>
+                                    <SelectItem value="Dinheiro" className="focus:bg-gray-700 focus:text-white cursor-pointer">Dinheiro</SelectItem>
+                                    <SelectItem value="Hibrido" className="focus:bg-gray-700 focus:text-white cursor-pointer">Híbrido</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="valor" className="text-right text-gray-300">Valor (R$)</Label>
+                            <Label htmlFor="valor" className="text-right text-gray-300 font-medium">Valor (R$)</Label>
                             <Input
                                 id="valor"
                                 name="valor"
                                 type="number"
-                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
+                                placeholder="0,00"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600 placeholder:text-gray-500 h-10"
                                 required
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="descricao" className="text-right text-gray-300">Descrição</Label>
+                            <Label htmlFor="descricao" className="text-right text-gray-300 font-medium">Descrição</Label>
                             <Textarea
                                 id="descricao"
                                 name="descricao"
-                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
-                                placeholder="Ex: 3 Stories e 1 Reel"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600 placeholder:text-gray-500 min-h-[100px]"
+                                placeholder="Ex: 3 Stories, 1 Reel e 1 Foto no Feed..."
                             />
                         </div>
                     </div>

@@ -81,24 +81,24 @@ export function DeliverableChecklist({ deliverables }: { deliverables: any[] }) 
             {deliverables.map((item) => (
                 <div
                     key={item.id}
-                    className={`group flex items-center justify-between p-4 border rounded-xl transition-all duration-200 ${item.status === 'posted'
-                        ? 'bg-green-900/20 border-green-800/50'
+                    className={`group flex items-center justify-between p-5 border rounded-xl transition-all duration-200 ${item.status === 'posted'
+                        ? 'bg-green-900/10 border-green-900/30'
                         : 'bg-gray-900 border-gray-800 hover:border-gray-700'
                         }`}
                 >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-5">
                         <Checkbox
                             checked={item.status === 'posted'}
                             onCheckedChange={() => toggleStatus(item.id, item.status)}
                             disabled={loadingId === item.id}
-                            className="data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600 border-gray-600"
+                            className="w-6 h-6 border-2 border-gray-600 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500 rounded-md transition-all"
                         />
 
-                        <div className={item.status === 'posted' ? 'opacity-50' : ''}>
-                            <p className={`font-medium text-lg capitalize ${item.status === 'posted' ? 'text-green-400 line-through' : 'text-white'}`}>
+                        <div className="flex flex-col">
+                            <p className={`font-semibold text-lg capitalize transition-colors ${item.status === 'posted' ? 'text-green-400 line-through opacity-70' : 'text-white'}`}>
                                 {typeLabels[item.type] || item.type || 'Item sem nome'}
                             </p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-400 font-medium mt-0.5">
                                 Prazo: {formatDate(item.due_date)}
                             </p>
                         </div>

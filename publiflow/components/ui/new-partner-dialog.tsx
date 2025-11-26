@@ -81,43 +81,44 @@ export function NewPartnerDialog() {
                             Cadastre uma nova loja ou marca para gerenciar acordos.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="grid gap-4 py-4">
+                    <div className="grid gap-6 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="nome" className="text-right text-gray-300">
+                            <Label htmlFor="nome" className="text-right text-gray-300 font-medium">
                                 Nome
                             </Label>
                             <Input
                                 id="nome"
                                 name="nome"
-                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600 placeholder:text-gray-500 h-10"
+                                placeholder="Nome da Loja ou Marca"
                                 required
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="contato" className="text-right text-gray-300">
+                            <Label htmlFor="contato" className="text-right text-gray-300 font-medium">
                                 Contato
                             </Label>
                             <Input
                                 id="contato"
                                 name="contato"
                                 placeholder="WhatsApp ou Email"
-                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600 placeholder:text-gray-500 h-10"
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="niche" className="text-right text-gray-300">
+                            <Label htmlFor="niche" className="text-right text-gray-300 font-medium">
                                 Nicho
                             </Label>
                             <Select value={niche} onValueChange={setNiche}>
-                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600">
-                                    <SelectValue placeholder="Selecione..." />
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600 h-10">
+                                    <SelectValue placeholder="Selecione o nicho..." />
                                 </SelectTrigger>
                                 <SelectContent className="bg-gray-800 border-gray-700 text-white">
-                                    <SelectItem value="Moda" className="focus:bg-gray-700 focus:text-white">Moda</SelectItem>
-                                    <SelectItem value="Beleza" className="focus:bg-gray-700 focus:text-white">Beleza</SelectItem>
-                                    <SelectItem value="Tech" className="focus:bg-gray-700 focus:text-white">Tech</SelectItem>
-                                    <SelectItem value="Alimentação" className="focus:bg-gray-700 focus:text-white">Alimentação</SelectItem>
-                                    <SelectItem value="Outros" className="focus:bg-gray-700 focus:text-white">Outros</SelectItem>
+                                    <SelectItem value="Moda" className="focus:bg-gray-700 focus:text-white cursor-pointer">Moda</SelectItem>
+                                    <SelectItem value="Beleza" className="focus:bg-gray-700 focus:text-white cursor-pointer">Beleza</SelectItem>
+                                    <SelectItem value="Tech" className="focus:bg-gray-700 focus:text-white cursor-pointer">Tech</SelectItem>
+                                    <SelectItem value="Alimentação" className="focus:bg-gray-700 focus:text-white cursor-pointer">Alimentação</SelectItem>
+                                    <SelectItem value="Outros" className="focus:bg-gray-700 focus:text-white cursor-pointer">Outros</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
