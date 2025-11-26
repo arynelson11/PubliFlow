@@ -70,7 +70,7 @@ export default function Home() {
             <div className="relative bg-gray-900 border border-gray-800 rounded-3xl p-4 shadow-2xl">
               {/* Substitua por uma imagem real do seu dashboard */}
               <Image
-                src="https://images.unsplash.com/photo-1551285499-19ff2163b7e7?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Mockup do Dashboard PubliFlow"
                 width={1200}
                 height={600}
@@ -132,25 +132,25 @@ export default function Home() {
             </p>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              // Para Ana Clara
+              {/* Para Ana Clara */}
               <TestimonialCard
-                image="https://thispersondoesnotexist.com/image" // Cada vez que carrega, é uma pessoa diferente
+                image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&h=100&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Ana Clara, @influencia_ela"
-                quote="Antes era uma bagunça! Agora consigo organizar tudo e mostrar para as marcas um trabalho de verdade. O PubliFlow salvou minha carreira!"
+                quote="..."
               />
 
-// Para Lucas Mkt
+              {/* Para Lucas Mkt */}
               <TestimonialCard
-                image="https://thispersondoesnotexist.com/image" // Outra pessoa diferente
+                image="https://images.unsplash.com/photo-1507003211169-e6958b0c4572?q=80&w=100&h=100&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Lucas Mkt, @lucas_digital"
-                quote="Meus relatórios agora são feitos em 1 minuto e ficam com uma cara super profissional. As marcas amam a clareza. Essencial para quem é creator!"
+                quote="..."
               />
 
-// Para Mariana P.
+              {/* Para Mariana P. */}
               <TestimonialCard
-                image="https://thispersondoesnotexist.com/image" // E outra
+                image="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=100&h=100&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Mariana P., @vida_de_creator"
-                quote="A interface é linda, super fácil de usar! Consigo acompanhar todos os meus recebidos e nunca mais perdi um prazo. Recomendo demais!"
+                quote="..."
               />
             </div>
           </div>
