@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 import {
     Dialog,
     DialogContent,
@@ -38,7 +39,6 @@ export function NewPartnerDialog() {
         const nome = formData.get('nome') as string
         const contato = formData.get('contato') as string
 
-        // Pega o usuário atual
         const { data: { user } } = await supabase.auth.getUser()
 
         if (!user) {
@@ -47,20 +47,18 @@ export function NewPartnerDialog() {
             return
         }
 
-        // --- AQUI ESTAVA O PROBLEMA, AGORA ESTÁ CORRIGIDO ---
         const { error } = await supabase.from('partners').insert({
-            name: nome,              // O Banco pede 'name'
-            contact_info: contato,   // O Banco pede 'contact_info'
-            niche: niche,            // O Banco pede 'niche' (em inglês)
+            name: nome,
+            contact_info: contato,
+            niche: niche,
             user_id: user.id
         })
-        // ----------------------------------------------------
 
         setLoading(false)
 
         if (!error) {
             setOpen(false)
-            router.refresh() // Atualiza a lista
+            router.refresh()
         } else {
             console.error('Erro ao criar parceiro:', error)
             alert('Erro ao criar parceiro: ' + error.message)
@@ -70,49 +68,66 @@ export function NewPartnerDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>Nova Parceria</Button>
+                <Button className="bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:from-violet-700 hover:to-fuchsia-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 font-medium">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Nova Parceria
+                </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] bg-gray-900 border-gray-800 text-white">
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
-                        <DialogTitle>Adicionar Parceiro</DialogTitle>
-                        <DialogDescription>
+                        <DialogTitle className="text-white">Adicionar Parceiro</DialogTitle>
+                        <DialogDescription className="text-gray-400">
                             Cadastre uma nova loja ou marca para gerenciar acordos.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="nome" className="text-right">
+                            <Label htmlFor="nome" className="text-right text-gray-300">
                                 Nome
                             </Label>
-                            <Input id="nome" name="nome" className="col-span-3" required />
+                            <Input
+                                id="nome"
+                                name="nome"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
+                                required
+                            />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="contato" className="text-right">
+                            <Label htmlFor="contato" className="text-right text-gray-300">
                                 Contato
                             </Label>
-                            <Input id="contato" name="contato" placeholder="WhatsApp ou Email" className="col-span-3" />
+                            <Input
+                                id="contato"
+                                name="contato"
+                                placeholder="WhatsApp ou Email"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
+                            />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="niche" className="text-right">
+                            <Label htmlFor="niche" className="text-right text-gray-300">
                                 Nicho
                             </Label>
                             <Select value={niche} onValueChange={setNiche}>
-                                <SelectTrigger className="col-span-3">
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600">
                                     <SelectValue placeholder="Selecione..." />
                                 </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Moda">Moda</SelectItem>
-                                    <SelectItem value="Beleza">Beleza</SelectItem>
-                                    <SelectItem value="Tech">Tech</SelectItem>
-                                    <SelectItem value="Alimentação">Alimentação</SelectItem>
-                                    <SelectItem value="Outros">Outros</SelectItem>
+                                <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                                    <SelectItem value="Moda" className="focus:bg-gray-700 focus:text-white">Moda</SelectItem>
+                                    <SelectItem value="Beleza" className="focus:bg-gray-700 focus:text-white">Beleza</SelectItem>
+                                    <SelectItem value="Tech" className="focus:bg-gray-700 focus:text-white">Tech</SelectItem>
+                                    <SelectItem value="Alimentação" className="focus:bg-gray-700 focus:text-white">Alimentação</SelectItem>
+                                    <SelectItem value="Outros" className="focus:bg-gray-700 focus:text-white">Outros</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit" disabled={loading}>
+                        <Button
+                            type="submit"
+                            disabled={loading}
+                            className="bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:from-violet-700 hover:to-fuchsia-600 text-white shadow-md border-0"
+                        >
                             {loading ? 'Salvando...' : 'Salvar Parceiro'}
                         </Button>
                     </DialogFooter>

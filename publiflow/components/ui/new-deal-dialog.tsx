@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 import {
     Dialog,
     DialogContent,
@@ -56,17 +57,15 @@ export function NewDealDialog() {
 
         if (!user) return
 
-        // --- AQUI ESTÁ A CORREÇÃO (start_date) ---
         const { error } = await supabase.from('deals').insert({
             partner_id: selectedPartner,
             payment_type: paymentType,
             estimated_value: Number(valor),
             notes: descricao,
-            start_date: new Date().toISOString(), // <--- CORRIGIDO
+            start_date: new Date().toISOString(),
             status: 'active',
             user_id: user.id
         })
-        // ----------------------------------------
 
         setLoading(false)
 
@@ -82,54 +81,72 @@ export function NewDealDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>Novo Acordo</Button>
+                <Button className="bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:from-violet-700 hover:to-fuchsia-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 font-medium">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Novo Acordo
+                </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] bg-gray-900 border-gray-800 text-white">
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
-                        <DialogTitle>Adicionar Acordo</DialogTitle>
-                        <DialogDescription>
+                        <DialogTitle className="text-white">Adicionar Acordo</DialogTitle>
+                        <DialogDescription className="text-gray-400">
                             Cadastre um novo acordo com um parceiro.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label className="text-right">Parceiro</Label>
+                            <Label className="text-right text-gray-300">Parceiro</Label>
                             <Select onValueChange={setSelectedPartner} required>
-                                <SelectTrigger className="col-span-3">
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600">
                                     <SelectValue placeholder="Selecione..." />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="bg-gray-800 border-gray-700 text-white">
                                     {partners.map(p => (
-                                        <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
+                                        <SelectItem key={p.id} value={p.id} className="focus:bg-gray-700 focus:text-white">{p.name}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label className="text-right">Pagamento</Label>
+                            <Label className="text-right text-gray-300">Pagamento</Label>
                             <Select onValueChange={setPaymentType} required>
-                                <SelectTrigger className="col-span-3">
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600">
                                     <SelectValue placeholder="Tipo..." />
                                 </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Permuta">Permuta</SelectItem>
-                                    <SelectItem value="Dinheiro">Dinheiro</SelectItem>
-                                    <SelectItem value="Hibrido">Híbrido</SelectItem>
+                                <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                                    <SelectItem value="Permuta" className="focus:bg-gray-700 focus:text-white">Permuta</SelectItem>
+                                    <SelectItem value="Dinheiro" className="focus:bg-gray-700 focus:text-white">Dinheiro</SelectItem>
+                                    <SelectItem value="Hibrido" className="focus:bg-gray-700 focus:text-white">Híbrido</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="valor" className="text-right">Valor (R$)</Label>
-                            <Input id="valor" name="valor" type="number" className="col-span-3" required />
+                            <Label htmlFor="valor" className="text-right text-gray-300">Valor (R$)</Label>
+                            <Input
+                                id="valor"
+                                name="valor"
+                                type="number"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
+                                required
+                            />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="descricao" className="text-right">Descrição</Label>
-                            <Textarea id="descricao" name="descricao" className="col-span-3" placeholder="Ex: 3 Stories e 1 Reel" />
+                            <Label htmlFor="descricao" className="text-right text-gray-300">Descrição</Label>
+                            <Textarea
+                                id="descricao"
+                                name="descricao"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
+                                placeholder="Ex: 3 Stories e 1 Reel"
+                            />
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit" disabled={loading}>
+                        <Button
+                            type="submit"
+                            disabled={loading}
+                            className="bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:from-violet-700 hover:to-fuchsia-600 text-white shadow-md border-0"
+                        >
                             {loading ? 'Salvando...' : 'Salvar Acordo'}
                         </Button>
                     </DialogFooter>
