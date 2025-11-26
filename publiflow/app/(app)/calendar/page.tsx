@@ -81,16 +81,16 @@ export default function CalendarPage() {
                 <p className="text-gray-400">Visualize suas entregas agendadas por mês.</p>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-2">
+            <div className="flex flex-col items-center justify-center mt-8 w-full">
                 {/* Calendar */}
-                <Card className="bg-gray-900 border-gray-800">
+                <Card className="bg-gray-900 border-gray-800 w-full max-w-4xl shadow-xl">
                     <CardHeader>
-                        <CardTitle className="text-white">Mês Atual</CardTitle>
+                        <CardTitle className="text-white text-center text-2xl">Mês Atual</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="flex justify-center">
                         <style jsx global>{`
                             .rdp {
-                                --rdp-cell-size: 45px;
+                                --rdp-cell-size: 60px;
                                 --rdp-accent-color: #a855f7;
                                 --rdp-background-color: #1f2937;
                                 margin: 0;
@@ -104,20 +104,22 @@ export default function CalendarPage() {
                             .rdp-caption {
                                 color: #fff;
                                 font-weight: 600;
-                                margin-bottom: 1rem;
+                                margin-bottom: 1.5rem;
+                                font-size: 1.25rem;
                             }
                             .rdp-head_cell {
                                 color: #9ca3af;
-                                font-weight: 500;
-                                font-size: 0.875rem;
+                                font-weight: 600;
+                                font-size: 1rem;
                             }
                             .rdp-cell {
-                                padding: 2px;
+                                padding: 4px;
                             }
                             .rdp-day {
                                 color: #d1d5db;
                                 border-radius: 0.5rem;
                                 font-weight: 500;
+                                font-size: 1.125rem;
                             }
                             .rdp-day:hover:not(.rdp-day_selected) {
                                 background-color: #374151;
@@ -143,11 +145,11 @@ export default function CalendarPage() {
                             .day-with-deliverable::after {
                                 content: '';
                                 position: absolute;
-                                bottom: 4px;
+                                bottom: 6px;
                                 left: 50%;
                                 transform: translateX(-50%);
-                                width: 6px;
-                                height: 6px;
+                                width: 8px;
+                                height: 8px;
                                 background-color: #10b981;
                                 border-radius: 50%;
                             }
@@ -168,9 +170,9 @@ export default function CalendarPage() {
                 </Card>
 
                 {/* Selected Day Details */}
-                <Card className="bg-gray-900 border-gray-800">
+                <Card className="bg-gray-900 border-gray-800 w-full max-w-4xl mt-6">
                     <CardHeader>
-                        <CardTitle className="text-white">
+                        <CardTitle className="text-white text-center text-xl">
                             {selectedDate ? format(selectedDate, "d 'de' MMMM", { locale: ptBR }) : 'Selecione um dia'}
                         </CardTitle>
                     </CardHeader>
