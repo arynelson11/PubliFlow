@@ -31,7 +31,7 @@ export default function Home() {
 
       {/* Hero Section Moderno */}
       <main className="flex-1 pt-32 pb-20">
-        <section className="container mx-auto px-4 text-center relative pb-20"> {/* Aumento de Espaçamento */}
+        <section className="container mx-auto px-4 text-center relative pb-20">
           {/* Badge de Novidade */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-800 border border-gray-700 text-violet-400 text-sm font-medium mb-8 animate-fade-in-up">
             <span className="relative flex h-2 w-2">
@@ -132,7 +132,6 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Testemunho 1: Ana Clara */}
-              {/* Note: O componente TestimonialCard deve ter 'text-align: center' para evitar que o nome da Ana Clara caia sobre a foto */}
               <TestimonialCard
                 image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&h=100&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Ana Clara, @influencia_ela"
@@ -140,7 +139,7 @@ export default function Home() {
               />
               {/* Testemunho 2: Lucas Mkt (LINK CORRIGIDO) */}
               <TestimonialCard
-                image="https://images.unsplash.com/photo-1547425260-76bc0fa4552e?q=80&w=100&h=100&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Link novo e estável
+                image="https://images.unsplash.com/photo-1547425260-76bc0fa4552e?q=80&w=100&h=100&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Lucas Mkt, @lucas_digital"
                 quote="Meus relatórios agora são feitos em 1 minuto e ficam com uma cara super profissional. As marcas amam a clareza. Essencial para quem é creator!"
               />
@@ -164,6 +163,46 @@ export default function Home() {
     </div>
   )
 }
-// ... Funções de Card (Testimonial, Benefit, etc) - Não estão no escopo da correção.
-// O código completo deve incluir estas funções
-// ...
+
+function FeatureCard({ icon, title, description }: any) {
+  return (
+    <div className="bg-gray-900 p-8 rounded-3xl shadow-lg border border-gray-800 hover:shadow-xl hover:border-violet-700 transition-all duration-300 group">
+      <div className="h-14 w-14 bg-gray-800 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-violet-500">
+        {icon}
+      </div>
+      <h3 className="font-bold text-xl mb-3 text-white">{title}</h3>
+      <p className="text-gray-400 leading-relaxed">{description}</p>
+    </div>
+  )
+}
+
+function BenefitCard({ icon, title, description }: any) {
+  return (
+    <div className="bg-gray-900 p-8 rounded-3xl shadow-lg border border-gray-800 hover:shadow-xl hover:border-fuchsia-700 transition-all duration-300">
+      <div className="h-16 w-16 bg-gray-800 rounded-full flex items-center justify-center mb-6 mx-auto">
+        {icon}
+      </div>
+      <h3 className="font-bold text-2xl mb-3 text-white">{title}</h3>
+      <p className="text-gray-400 leading-relaxed">{description}</p>
+    </div>
+  )
+}
+
+function TestimonialCard({ image, name, quote }: any) {
+  return (
+    <div className="bg-gray-900 p-8 rounded-3xl shadow-lg border border-gray-800 hover:shadow-xl hover:border-pink-700 transition-all duration-300 flex flex-col items-center text-center">
+      {/* CORREÇÃO FINAL: Imagem tag com width/height para o build passar */}
+      <div className="w-20 h-20 rounded-full overflow-hidden mb-6 border-4 border-violet-600 shadow-lg">
+        <Image
+          src={image}
+          alt={name}
+          width={80}
+          height={80}
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
+      <p className="text-gray-300 italic mb-4">"{quote}"</p>
+      <p className="font-bold text-white text-lg">{name}</p>
+    </div>
+  )
+}
