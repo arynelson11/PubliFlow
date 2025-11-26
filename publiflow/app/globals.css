@@ -3,85 +3,38 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    /* Cor do fundo no modo claro */
-    --foreground: 240 10% 3.9%;
-    /* Cor do texto no modo claro */
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 262 83% 58%;
-    /* Roxo Vibrante no modo claro */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 262 83% 58%;
-    --radius: 1rem;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    /* Fundo MUITO ESCURO no modo escuro */
-    --foreground: 0 0% 98%;
-    /* Texto CLARO no modo escuro */
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 262 83% 68%;
-    /* Roxo mais claro no Dark Mode para destacar */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 262 83% 68%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
   body {
-    @apply bg-background text-foreground;
+    /* Forçando o fundo escuro e texto claro diretamente no body */
+    background-color: #0f172a;
+    /* Cor escura do Tailwind */
+    color: #f8fafc;
+    /* Cor clara do Tailwind */
     font-family: 'Inter', sans-serif;
-    /* Adiciona uma fonte mais moderna, se disponível */
-  }
-
-  /* Estilo para inputs no Dark Mode */
-  input,
-  button,
-  select,
-  textarea {
-    @apply dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200;
   }
 }
 
-/* Animação de Gradiente no Texto */
+/* Regra para o gradiente de texto */
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-fuchsia-400;
-  /* Cores adaptadas para Dark Mode */
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #a78bfa, #f472b6);
+  /* Roxo para Rosa */
 }
 
-/* Animação suave de entrada */
+/* Estilos para componentes Shadcn que podem estar com variáveis antigas */
+input,
+button,
+select,
+textarea {
+  background-color: #1e293b;
+  /* slate-800 */
+  border-color: #334155;
+  /* slate-700 */
+  color: #e2e8f0;
+  /* slate-200 */
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
