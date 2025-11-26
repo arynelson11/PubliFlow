@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LayoutDashboard, Handshake, Users, LogOut, Zap, Wallet } from 'lucide-react'
+import { LayoutDashboard, Handshake, Users, LogOut, Zap, Wallet, Calendar } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -50,6 +50,9 @@ export default async function AppLayout({
                     </NavLink>
                     <NavLink href="/finance" icon={<Wallet className="h-5 w-5" />}>
                         Financeiro
+                    </NavLink>
+                    <NavLink href="/calendar" icon={<Calendar className="h-5 w-5" />}>
+                        Calendário
                     </NavLink>
                 </nav>
 
