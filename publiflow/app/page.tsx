@@ -70,7 +70,7 @@ export default function Home() {
             <div className="relative bg-gray-900 border border-gray-800 rounded-3xl p-4 shadow-2xl">
               {/* Substitua por uma imagem real do seu dashboard */}
               <Image
-                src="https://publiflow-git-main-aio-developers1.vercel.app/_next/image?url=%2Fmockup-dashboard.png&w=1920&q=75"
+                src="https://images.unsplash.com/photo-1551285499-19ff2163b7e7?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Mockup do Dashboard PubliFlow"
                 width={1200}
                 height={600}
@@ -132,18 +132,23 @@ export default function Home() {
             </p>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              // Para Ana Clara
               <TestimonialCard
-                image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                image="https://thispersondoesnotexist.com/image" // Cada vez que carrega, é uma pessoa diferente
                 name="Ana Clara, @influencia_ela"
                 quote="Antes era uma bagunça! Agora consigo organizar tudo e mostrar para as marcas um trabalho de verdade. O PubliFlow salvou minha carreira!"
               />
+
+// Para Lucas Mkt
               <TestimonialCard
-                image="https://images.unsplash.com/photo-1507003211169-e6958b0c4572?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                image="https://thispersondoesnotexist.com/image" // Outra pessoa diferente
                 name="Lucas Mkt, @lucas_digital"
                 quote="Meus relatórios agora são feitos em 1 minuto e ficam com uma cara super profissional. As marcas amam a clareza. Essencial para quem é creator!"
               />
+
+// Para Mariana P.
               <TestimonialCard
-                image="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                image="https://thispersondoesnotexist.com/image" // E outra
                 name="Mariana P., @vida_de_creator"
                 quote="A interface é linda, super fácil de usar! Consigo acompanhar todos os meus recebidos e nunca mais perdi um prazo. Recomendo demais!"
               />

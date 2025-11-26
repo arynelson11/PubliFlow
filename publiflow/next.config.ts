@@ -1,24 +1,30 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Configuração para liberar imagens de sites externos (Testemunhos, Mockups)
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: 'images.unsplash.com', // Imagens de alta qualidade
       },
       {
         protocol: 'https',
-        hostname: 'randomuser.me',
+        hostname: 'randomuser.me', // Gerador de avatares antigos (vamos substituir)
       },
       {
         protocol: 'https',
-        hostname: 'via.placeholder.com',
+        hostname: 'via.placeholder.com', // Placeholders gerais
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.dicebear.com', // Gerador de avatares modernos e consistentes
+      },
+      {
+        protocol: 'https',
+        hostname: 'thispersondoesnotexist.com', // Para imagens de IA super realistas
       },
     ],
   },
-  // Garante que o Next.js lide corretamente com as URLs
   trailingSlash: false,
 };
 
