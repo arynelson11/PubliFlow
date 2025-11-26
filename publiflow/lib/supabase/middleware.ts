@@ -29,29 +29,6 @@ export async function updateSession(request: NextRequest) {
         }
     )
 
-    // IMPORTANTE: Evitar loop infinito e proteger rotas
-    // Recupera o usuário
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
-
-    // 1. Se NÃO tem usuário e NÃO está na página de login/cadastro
-    // Redireciona para /login
-    if (
-        !user &&
-        !request.nextUrl.pathname.startsWith('/login') &&
-        !request.nextUrl.pathname.startsWith('/auth') &&
-        !request.nextUrl.pathname.startsWith('/report') // <--- LIBERA O RELATÓRIO
-    ) {
-        const url = request.nextUrl.clone()
-        url.pathname = '/login'
-        return NextResponse.redirect(url)
-    }
-
-    // 2. Se TEM usuário e está na página de login ou home
-    // Redireciona para /dashboard
-    if (
-        user &&
         (request.nextUrl.pathname === '/' || request.nextUrl.pathname.startsWith('/login'))
     ) {
         const url = request.nextUrl.clone()
