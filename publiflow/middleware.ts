@@ -2,6 +2,7 @@ import { type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
+    // Essa função updateSession precisa existir e ser compatível
     return await updateSession(request)
 }
 
