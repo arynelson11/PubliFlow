@@ -22,6 +22,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
+import { Plus } from 'lucide-react'
 
 export function AddDeliverableDialog({ dealId }: { dealId: string }) {
     const [open, setOpen] = useState(false)
@@ -64,38 +65,51 @@ export function AddDeliverableDialog({ dealId }: { dealId: string }) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>Adicionar Item</Button>
+                <Button className="bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:from-violet-700 hover:to-fuchsia-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 font-medium">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Adicionar Item
+                </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] bg-gray-900 border-gray-800 text-white">
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
-                        <DialogTitle>Adicionar Entrega</DialogTitle>
-                        <DialogDescription>
+                        <DialogTitle className="text-white">Adicionar Entrega</DialogTitle>
+                        <DialogDescription className="text-gray-400">
                             Adicione um novo item à lista de entregas deste acordo.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label className="text-right">Tipo</Label>
+                            <Label className="text-right text-gray-300">Tipo</Label>
                             <Select value={type} onValueChange={setType}>
-                                <SelectTrigger className="col-span-3">
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600">
                                     <SelectValue placeholder="Selecione..." />
                                 </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="story">Story</SelectItem>
-                                    <SelectItem value="reel">Reels</SelectItem>
-                                    <SelectItem value="feed">Post no Feed</SelectItem>
-                                    <SelectItem value="tiktok">TikTok</SelectItem>
+                                <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                                    <SelectItem value="story" className="focus:bg-gray-700 focus:text-white">Story</SelectItem>
+                                    <SelectItem value="reel" className="focus:bg-gray-700 focus:text-white">Reels</SelectItem>
+                                    <SelectItem value="feed" className="focus:bg-gray-700 focus:text-white">Post no Feed</SelectItem>
+                                    <SelectItem value="tiktok" className="focus:bg-gray-700 focus:text-white">TikTok</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="date" className="text-right">Data Limite</Label>
-                            <Input id="date" name="date" type="date" className="col-span-3" required />
+                            <Label htmlFor="date" className="text-right text-gray-300">Data Limite</Label>
+                            <Input
+                                id="date"
+                                name="date"
+                                type="date"
+                                className="col-span-3 bg-gray-800 border-gray-700 text-white focus-visible:ring-violet-600"
+                                required
+                            />
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit" disabled={loading}>
+                        <Button
+                            type="submit"
+                            disabled={loading}
+                            className="bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:from-violet-700 hover:to-fuchsia-600 text-white shadow-md border-0"
+                        >
                             {loading ? 'Salvando...' : 'Salvar Item'}
                         </Button>
                     </DialogFooter>
