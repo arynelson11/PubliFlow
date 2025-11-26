@@ -1,13 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
 import { NewDealDialog } from '@/components/ui/new-deal-dialog'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -36,60 +28,71 @@ export default async function DealsPage() {
     }
 
     return (
-        <div className="container mx-auto py-10">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Meus Acordos</h1>
+        <div className="space-y-8">
+            <div className="flex justify-between items-start">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">Meus Acordos</h1>
+                    <p className="text-gray-400">Gerencie todas as suas parcerias ativas</p>
+                </div>
                 <NewDealDialog />
             </div>
 
-            <div className="border rounded-md">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Parceiro</TableHead>
-                            <TableHead>Descrição</TableHead>
-                            <TableHead>Tipo Pagamento</TableHead>
-                            <TableHead>Valor</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Ações</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
+            <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+                <table className="w-full text-sm">
+                    <thead className="bg-gray-800/50 border-b border-gray-800">
+                        <tr>
+                            <th className="p-4 text-left font-medium text-gray-300">Parceiro</th>
+                            <th className="p-4 text-left font-medium text-gray-300">Descrição</th>
+                            <th className="p-4 text-left font-medium text-gray-300">Tipo Pagamento</th>
+                            <th className="p-4 text-left font-medium text-gray-300">Valor</th>
+                            <th className="p-4 text-left font-medium text-gray-300">Status</th>
+                            <th className="p-4 text-left font-medium text-gray-300">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {(!deals || deals.length === 0) ? (
-                            <TableRow>
-                                <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
-                                    Nenhum acordo ativo. Crie o primeiro!
-                                </TableCell>
-                            </TableRow>
+                            <tr>
+                                <td colSpan={6} className="p-12 text-center">
+                                    <div className="flex flex-col items-center gap-3">
+                                        <div className="text-gray-500 text-lg">Nenhum acordo cadastrado</div>
+                                        <p className="text-gray-600 text-sm">Clique em "Novo Acordo" para começar</p>
+                                    </div>
+                                </td>
+                            </tr>
                         ) : (
                             deals.map((deal) => (
-                                <TableRow key={deal.id}>
-                                    <TableCell className="font-medium">
-                                        {/* Exibe o nome do parceiro ou 'Desconhecido' se der erro */}
+                                <tr key={deal.id} className="border-b border-gray-800 hover:bg-gray-800/30 transition-colors">
+                                    <td className="p-4 font-medium text-gray-200">
                                         {deal.partners?.name || 'Parceiro Excluído'}
-                                    </TableCell>
-                                    <TableCell className="max-w-[200px] truncate" title={deal.notes}>
-                                        {deal.notes}
-                                    </TableCell>
-                                    <TableCell>{deal.payment_type}</TableCell>
-                                    <TableCell>
+                                    </td>
+                                    <td className="p-4 max-w-[200px] truncate text-gray-300" title={deal.notes}>
+                                        {deal.notes || '-'}
+                                    </td>
+                                    <td className="p-4 text-gray-300">{deal.payment_type || '-'}</td>
+                                    <td className="p-4 text-gray-300 font-medium">
                                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(deal.estimated_value || 0)}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Badge variant={deal.status === 'active' ? 'default' : 'secondary'}>
+                                    </td>
+                                    <td className="p-4">
+                                        <Badge
+                                            variant={deal.status === 'active' ? 'default' : 'secondary'}
+                                            className={deal.status === 'active' ? 'bg-green-600 hover:bg-green-700' : ''}
+                                        >
                                             {deal.status === 'active' ? 'Ativo' : deal.status}
                                         </Badge>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Link href={`/deals/${deal.id}`} className="text-blue-500 hover:underline">
-                                            Ver Detalhes
+                                    </td>
+                                    <td className="p-4">
+                                        <Link
+                                            href={`/deals/${deal.id}`}
+                                            className="text-violet-400 hover:text-violet-300 font-medium transition-colors"
+                                        >
+                                            Ver Detalhes →
                                         </Link>
-                                    </TableCell>
-                                </TableRow>
+                                    </td>
+                                </tr>
                             ))
                         )}
-                    </TableBody>
-                </Table>
+                    </tbody>
+                </table>
             </div>
         </div>
     )
