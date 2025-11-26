@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { syncToGoogleCalendar } from '@/app/actions'
 import { DayPicker } from 'react-day-picker'
 import { format, startOfMonth, endOfMonth } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -9,6 +10,8 @@ import 'react-day-picker/dist/style.css'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { RefreshCw } from 'lucide-react'
 
 type Deliverable = {
     id: string
@@ -34,6 +37,8 @@ export default function CalendarPage() {
     const [deliverables, setDeliverables] = useState<Deliverable[]>([])
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
     const [loading, setLoading] = useState(true)
+    const [syncing, setSyncing] = useState(false)
+    const [toastMessage, setToastMessage] = useState<string | null>(null)
     const supabase = createClient()
 
     useEffect(() => {
@@ -63,6 +68,24 @@ export default function CalendarPage() {
         setLoading(false)
     }
 
+    async function handleSync() {
+        setSyncing(true)
+        setToastMessage('Sincronizando...')
+
+        const result = await syncToGoogleCalendar()
+
+        setSyncing(false)
+
+        if (result.success) {
+            setToastMessage(result.message || 'Agenda atualizada!')
+            setTimeout(() => setToastMessage(null), 4000)
+            await fetchDeliverables() // Refresh data
+        } else {
+            setToastMessage('Erro: ' + result.error)
+            setTimeout(() => setToastMessage(null), 5000)
+        }
+    }
+
     // Get dates that have deliverables
     const datesWithDeliverables = deliverables.map(d => new Date(d.due_date))
 
@@ -76,9 +99,26 @@ export default function CalendarPage() {
 
     return (
         <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Calendário de Conteúdo</h1>
-                <p className="text-gray-400">Visualize suas entregas agendadas por mês.</p>
+            {/* Toast Notification */}
+            {toastMessage && (
+                <div className="fixed top-4 right-4 z-50 bg-gray-800 border border-violet-500 text-white px-6 py-3 rounded-lg shadow-2xl animate-fade-in-up">
+                    {toastMessage}
+                </div>
+            )}
+
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">Calendário de Conteúdo</h1>
+                    <p className="text-gray-400">Visualize suas entregas agendadas por mês.</p>
+                </div>
+                <Button
+                    onClick={handleSync}
+                    disabled={syncing}
+                    className="bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:from-violet-700 hover:to-fuchsia-600 text-white shadow-lg"
+                >
+                    <RefreshCw className={`w-4 h-4 mr-2 ${syncing ? 'animate-spin' : ''}`} />
+                    {syncing ? 'Sincronizando...' : '🔄 Sincronizar com Google Agenda'}
+                </Button>
             </div>
 
             <div className="flex flex-col items-center justify-center mt-8 w-full">
