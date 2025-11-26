@@ -70,7 +70,7 @@ export default function Home() {
             <div className="relative bg-gray-900 border border-gray-800 rounded-3xl p-4 shadow-2xl">
               {/* Substitua por uma imagem real do seu dashboard */}
               <Image
-                src="https://via.placeholder.com/1200x600/1e293b/a8a29e?text=Mockup+Dashboard+PubliFlow"
+                src="https://publiflow-git-main-aio-developers1.vercel.app/_next/image?url=%2Fmockup-dashboard.png&w=1920&q=75"
                 alt="Mockup do Dashboard PubliFlow"
                 width={1200}
                 height={600}
@@ -133,17 +133,17 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               <TestimonialCard
-                image="https://randomuser.me/api/portraits/women/68.jpg"
+                image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Ana Clara, @influencia_ela"
                 quote="Antes era uma bagunça! Agora consigo organizar tudo e mostrar para as marcas um trabalho de verdade. O PubliFlow salvou minha carreira!"
               />
               <TestimonialCard
-                image="https://randomuser.me/api/portraits/men/45.jpg"
+                image="https://images.unsplash.com/photo-1507003211169-e6958b0c4572?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Lucas Mkt, @lucas_digital"
                 quote="Meus relatórios agora são feitos em 1 minuto e ficam com uma cara super profissional. As marcas amam a clareza. Essencial para quem é creator!"
               />
               <TestimonialCard
-                image="https://randomuser.me/api/portraits/women/79.jpg"
+                image="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 name="Mariana P., @vida_de_creator"
                 quote="A interface é linda, super fácil de usar! Consigo acompanhar todos os meus recebidos e nunca mais perdi um prazo. Recomendo demais!"
               />
