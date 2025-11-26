@@ -28,7 +28,9 @@ import {
 export function NewIdeaDialog() {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [status, setStatus] = useState('backlog')
+    const [status, setStatus] = useState('idea')
+    const [platform, setPlatform] = useState('')
+    const [priority, setPriority] = useState('medium')
 
     const router = useRouter()
     const supabase = createClient()
@@ -48,7 +50,9 @@ export function NewIdeaDialog() {
         const { error } = await supabase.from('ideas').insert({
             title,
             description,
+            platform,
             status,
+            priority,
             user_id: user.id
         })
 
@@ -59,7 +63,9 @@ export function NewIdeaDialog() {
             router.refresh()
             // Reseta o formulário
             e.currentTarget.reset()
-            setStatus('backlog')
+            setStatus('idea')
+            setPlatform('')
+            setPriority('medium')
         } else {
             console.error(error)
             alert('Erro ao criar ideia: ' + error.message)
@@ -103,23 +109,61 @@ export function NewIdeaDialog() {
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
+                            <Label className="text-right text-gray-300 font-medium">Plataforma</Label>
+                            <Select onValueChange={setPlatform} required>
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600 h-10">
+                                    <SelectValue placeholder="Selecione a plataforma..." />
+                                </SelectTrigger>
+                                <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                                    <SelectItem value="Instagram" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        📸 Instagram
+                                    </SelectItem>
+                                    <SelectItem value="TikTok" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        🎵 TikTok
+                                    </SelectItem>
+                                    <SelectItem value="YouTube" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        🎥 YouTube
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
                             <Label className="text-right text-gray-300 font-medium">Status</Label>
-                            <Select onValueChange={setStatus} defaultValue="backlog">
+                            <Select onValueChange={setStatus} defaultValue="idea">
                                 <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600 h-10">
                                     <SelectValue placeholder="Selecione o status..." />
                                 </SelectTrigger>
                                 <SelectContent className="bg-gray-800 border-gray-700 text-white">
-                                    <SelectItem value="backlog" className="focus:bg-gray-700 focus:text-white cursor-pointer">
-                                        💡 Backlog
+                                    <SelectItem value="idea" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        💡 Ideia
                                     </SelectItem>
-                                    <SelectItem value="em_producao" className="focus:bg-gray-700 focus:text-white cursor-pointer">
-                                        🎬 Em Produção
+                                    <SelectItem value="scripting" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        📝 Roteirizando
                                     </SelectItem>
-                                    <SelectItem value="revisao" className="focus:bg-gray-700 focus:text-white cursor-pointer">
-                                        ✏️ Revisão
+                                    <SelectItem value="filming" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        🎬 Filmando
                                     </SelectItem>
-                                    <SelectItem value="pronto" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                    <SelectItem value="done" className="focus:bg-gray-700 focus:text-white cursor-pointer">
                                         ✅ Pronto
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label className="text-right text-gray-300 font-medium">Prioridade</Label>
+                            <Select onValueChange={setPriority} defaultValue="medium">
+                                <SelectTrigger className="col-span-3 bg-gray-800 border-gray-700 text-white focus:ring-violet-600 focus:border-violet-600 h-10">
+                                    <SelectValue placeholder="Selecione a prioridade..." />
+                                </SelectTrigger>
+                                <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                                    <SelectItem value="low" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        🟢 Baixa
+                                    </SelectItem>
+                                    <SelectItem value="medium" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        🟡 Média
+                                    </SelectItem>
+                                    <SelectItem value="high" className="focus:bg-gray-700 focus:text-white cursor-pointer">
+                                        🔴 Alta
                                     </SelectItem>
                                 </SelectContent>
                             </Select>

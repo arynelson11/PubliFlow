@@ -1,12 +1,15 @@
 import { createClient } from '@/lib/supabase/server'
 import { NewIdeaDialog } from '@/components/ui/new-idea-dialog'
-import { Lightbulb, Sparkles, Film, Edit3, CheckCircle2 } from 'lucide-react'
+import { Lightbulb, Sparkles, Edit3, Film, CheckCircle2 } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 
 interface Idea {
     id: string
     title: string
     description: string | null
-    status: 'backlog' | 'em_producao' | 'revisao' | 'pronto'
+    platform: 'Instagram' | 'TikTok' | 'YouTube'
+    status: 'idea' | 'scripting' | 'filming' | 'done'
+    priority: 'low' | 'medium' | 'high'
     created_at: string
 }
 
@@ -20,10 +23,10 @@ export default async function IdeasPage() {
         .order('created_at', { ascending: false })
 
     // Organize ideas by status
-    const backlogIdeas = ideas?.filter(i => i.status === 'backlog') || []
-    const emProducaoIdeas = ideas?.filter(i => i.status === 'em_producao') || []
-    const revisaoIdeas = ideas?.filter(i => i.status === 'revisao') || []
-    const prontoIdeas = ideas?.filter(i => i.status === 'pronto') || []
+    const ideaIdeas = ideas?.filter(i => i.status === 'idea') || []
+    const scriptingIdeas = ideas?.filter(i => i.status === 'scripting') || []
+    const filmingIdeas = ideas?.filter(i => i.status === 'filming') || []
+    const doneIdeas = ideas?.filter(i => i.status === 'done') || []
 
     return (
         <div className="space-y-8">
@@ -40,35 +43,35 @@ export default async function IdeasPage() {
 
             {/* Kanban Board */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {/* Coluna Backlog */}
+                {/* Coluna Ideia */}
                 <KanbanColumn
-                    title="💡 Backlog"
+                    title="💡 Ideia"
                     color="from-gray-600 to-gray-700"
-                    ideas={backlogIdeas}
+                    ideas={ideaIdeas}
                     icon={<Sparkles className="h-5 w-5" />}
                 />
 
-                {/* Coluna Em Produção */}
+                {/* Coluna Roteirizando */}
                 <KanbanColumn
-                    title="🎬 Em Produção"
+                    title="📝 Roteirizando"
                     color="from-blue-600 to-blue-700"
-                    ideas={emProducaoIdeas}
-                    icon={<Film className="h-5 w-5" />}
+                    ideas={scriptingIdeas}
+                    icon={<Edit3 className="h-5 w-5" />}
                 />
 
-                {/* Coluna Revisão */}
+                {/* Coluna Filmando */}
                 <KanbanColumn
-                    title="✏️ Revisão"
+                    title="🎬 Filmando"
                     color="from-amber-600 to-amber-700"
-                    ideas={revisaoIdeas}
-                    icon={<Edit3 className="h-5 w-5" />}
+                    ideas={filmingIdeas}
+                    icon={<Film className="h-5 w-5" />}
                 />
 
                 {/* Coluna Pronto */}
                 <KanbanColumn
                     title="✅ Pronto"
                     color="from-green-600 to-green-700"
-                    ideas={prontoIdeas}
+                    ideas={doneIdeas}
                     icon={<CheckCircle2 className="h-5 w-5" />}
                 />
             </div>
@@ -127,23 +130,48 @@ function KanbanColumn({
     )
 }
 
+const platformEmojis = {
+    Instagram: '📸',
+    TikTok: '🎵',
+    YouTube: '🎥'
+}
+
+const priorityConfig = {
+    low: { emoji: '🟢', color: 'bg-green-500/10 text-green-400 border-green-500/30' },
+    medium: { emoji: '🟡', color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' },
+    high: { emoji: '🔴', color: 'bg-red-500/10 text-red-400 border-red-500/30' }
+}
+
 function IdeaCard({ idea }: { idea: Idea }) {
+    const priorityInfo = priorityConfig[idea.priority]
+
     return (
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 hover:border-violet-500 transition-all duration-200 cursor-pointer group hover:shadow-lg hover:shadow-violet-500/20">
-            <h4 className="font-semibold text-white mb-2 group-hover:text-violet-400 transition-colors">
-                {idea.title}
-            </h4>
+            <div className="flex items-start justify-between mb-3">
+                <h4 className="font-semibold text-white group-hover:text-violet-400 transition-colors flex-1">
+                    {idea.title}
+                </h4>
+                <span className="text-lg ml-2">{platformEmojis[idea.platform]}</span>
+            </div>
+
             {idea.description && (
                 <p className="text-sm text-gray-400 line-clamp-3 mb-3">
                     {idea.description}
                 </p>
             )}
-            <div className="text-xs text-gray-500">
-                {new Date(idea.created_at).toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                })}
+
+            <div className="flex items-center justify-between pt-3 border-t border-gray-700">
+                <div className="flex items-center gap-2">
+                    <Badge className={`text-xs font-semibold px-2 py-0.5 border ${priorityInfo.color}`}>
+                        {priorityInfo.emoji} {idea.priority === 'low' ? 'Baixa' : idea.priority === 'medium' ? 'Média' : 'Alta'}
+                    </Badge>
+                </div>
+                <div className="text-xs text-gray-500">
+                    {new Date(idea.created_at).toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: 'short'
+                    })}
+                </div>
             </div>
         </div>
     )
