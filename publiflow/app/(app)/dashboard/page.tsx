@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { TrendingUp, Package, DollarSign } from 'lucide-react'
+import { EngagementChart } from '@/components/engagement-chart'
 
 export default async function DashboardPage() {
     const supabase = await createClient()
@@ -76,6 +77,12 @@ export default async function DashboardPage() {
                 </div>
             </div>
 
+            {/* Engagement Chart */}
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                <h2 className="text-xl font-semibold text-white mb-6">Engajamento dos Últimos 6 Meses</h2>
+                <EngagementChart />
+            </div>
+
             {/* Upcoming Deliverables Table */}
             <div className="space-y-4">
                 <h2 className="text-xl font-semibold text-white">Próximas Entregas</h2>
@@ -112,4 +119,3 @@ export default async function DashboardPage() {
         </div>
     )
 }
-
