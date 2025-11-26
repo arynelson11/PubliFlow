@@ -48,5 +48,16 @@ export async function updateSession(request: NextRequest) {
         return NextResponse.redirect(url)
     }
 
+    // 2. Se TEM usuário e está na página de login ou home
+    // Redireciona para /dashboard
+    if (
+        user &&
+        (request.nextUrl.pathname === '/' || request.nextUrl.pathname.startsWith('/login'))
+    ) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+    }
+
     return supabaseResponse
 }
