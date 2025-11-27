@@ -2,11 +2,14 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SettingsForm } from '@/components/settings-form'
-import { Settings, Sliders } from 'lucide-react'
+import { Settings, Sliders, Bell, Calendar, CheckCircle, XCircle } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
 
 export default async function SettingsPage() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
+    const { data: { session } } = await supabase.auth.getSession()
 
     if (!user) {
         redirect('/login')
@@ -17,6 +20,8 @@ export default async function SettingsPage() {
         .select('*')
         .eq('id', user.id)
         .single()
+
+    const hasGoogleToken = !!session?.provider_token
 
     return (
         <div className="space-y-8">
@@ -49,15 +54,67 @@ export default async function SettingsPage() {
                     </div>
                 </TabsContent>
 
-                <TabsContent value="preferences">
-                    <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center py-20">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-800 mb-4">
-                            <Sliders className="h-8 w-8 text-gray-500" />
+                <TabsContent value="preferences" className="space-y-6">
+                    {/* Notificações */}
+                    <div className="bg-gray-900 border border-gray-800 rounded-xl p-8">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-gray-800 rounded-lg">
+                                <Bell className="h-5 w-5 text-violet-500" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white">Notificações</h3>
                         </div>
-                        <h3 className="text-xl font-semibold text-white mb-2">Em breve</h3>
-                        <p className="text-gray-400 max-w-md mx-auto">
-                            Estamos trabalhando em novas opções de personalização para você.
-                        </p>
+
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-0.5">
+                                    <Label className="text-base text-gray-200">Alertas de Prazo por E-mail</Label>
+                                    <p className="text-sm text-gray-400">Receba avisos quando uma entrega estiver próxima.</p>
+                                </div>
+                                <Switch defaultChecked />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-0.5">
+                                    <Label className="text-base text-gray-200">Resumo Semanal</Label>
+                                    <p className="text-sm text-gray-400">Um email toda segunda-feira com suas tarefas da semana.</p>
+                                </div>
+                                <Switch defaultChecked />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Integrações */}
+                    <div className="bg-gray-900 border border-gray-800 rounded-xl p-8">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-gray-800 rounded-lg">
+                                <Calendar className="h-5 w-5 text-fuchsia-500" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white">Integrações</h3>
+                        </div>
+
+                        <div className="flex items-center justify-between p-4 bg-gray-950/50 rounded-lg border border-gray-800">
+                            <div className="flex items-center gap-4">
+                                <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
+                                    <img src="https://www.google.com/favicon.ico" alt="Google" className="h-6 w-6" />
+                                </div>
+                                <div>
+                                    <p className="font-medium text-white">Google Calendar</p>
+                                    <p className="text-sm text-gray-400">Sincronize suas entregas automaticamente.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                {hasGoogleToken ? (
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-500 border border-green-500/20">
+                                        <CheckCircle className="h-3.5 w-3.5" />
+                                        Conectado
+                                    </span>
+                                ) : (
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-500 border border-red-500/20">
+                                        <XCircle className="h-3.5 w-3.5" />
+                                        Desconectado
+                                    </span>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </TabsContent>
             </Tabs>

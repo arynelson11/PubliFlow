@@ -18,7 +18,7 @@ export default function GoogleAuthButton() {
                     access_type: 'offline',
                     prompt: 'consent',
                 },
-                scopes: 'https://www.googleapis.com/auth/calendar',
+                scopes: 'openid email profile https://www.googleapis.com/auth/calendar',
             },
         })
     }

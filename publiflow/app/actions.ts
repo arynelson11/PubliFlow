@@ -302,16 +302,14 @@ export async function updateProfile(formData: FormData) {
             updated_at: new Date().toISOString(),
         }
 
-        if (fullName) updates.full_name = fullName
-        if (bio) updates.bio = bio
-        if (avatarUrl) updates.avatar_url = avatarUrl
+        if (fullName !== null) updates.full_name = fullName
+        if (bio !== null) updates.bio = bio
+        if (avatarUrl !== null) updates.avatar_url = avatarUrl
 
         const { error } = await supabase
             .from('profiles')
-            .upsert({
-                id: user.id,
-                ...updates
-            })
+            .update(updates)
+            .eq('id', user.id)
 
         if (error) {
             console.error('Error updating profile:', error)

@@ -65,15 +65,17 @@ export default async function AppLayout({
                     <NavLink href="/ideas" icon={<Lightbulb className="h-5 w-5" />}>
                         Ideias
                     </NavLink>
-                    <div className="pt-4 mt-4 border-t border-gray-800">
-                        <NavLink href="/settings" icon={<Settings className="h-5 w-5" />}>
-                            Configurações
-                        </NavLink>
-                    </div>
                 </nav>
 
-                {/* User Info & Logout */}
-                <div className="p-4 border-t border-gray-800">
+                {/* Settings & User Info */}
+                <div className="p-4 border-t border-gray-800 mt-auto">
+                    <Link
+                        href="/settings"
+                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-all font-medium mb-2"
+                    >
+                        <Settings className="h-5 w-5" />
+                        Configurações
+                    </Link>
                     <div className="mb-3 text-sm text-gray-400 truncate">
                         {user.email}
                     </div>
