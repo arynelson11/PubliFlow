@@ -16,6 +16,14 @@ export default async function AppLayout({
         redirect('/login')
     }
 
+    // Check subscription status
+    const { checkSubscription } = await import('@/lib/subscription')
+    const subscription = await checkSubscription()
+
+    if (subscription?.isExpired) {
+        redirect('/subscription')
+    }
+
     const signOut = async () => {
         'use server'
         const supabase = await createClient()
