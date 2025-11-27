@@ -94,6 +94,9 @@ export async function deleteIdea(id: string) {
 /**
  * Sincroniza deliverables pendentes com Google Calendar
  */
+/**
+ * Sincroniza deliverables pendentes com Google Calendar
+ */
 export async function syncToGoogleCalendar() {
     try {
         const supabase = await createClient()
@@ -106,12 +109,66 @@ export async function syncToGoogleCalendar() {
         }
 
         // 2. Extrair o provider_token (token do Google)
-        const providerToken = session.provider_token
+        let providerToken = session.provider_token
+        const providerRefreshToken = session.provider_refresh_token
 
         if (!providerToken) {
             return {
                 success: false,
                 error: 'Token do Google não encontrado. Faça login novamente com Google para conceder permissões ao calendário.'
+            }
+        }
+
+        // Função auxiliar para tentar fazer a requisição ao Google
+        const fetchGoogleCalendar = async (token: string, event: any) => {
+            return await fetch(
+                'https://www.googleapis.com/calendar/v3/calendars/primary/events',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(event),
+                }
+            )
+        }
+
+        // Função para renovar o token
+        const refreshGoogleToken = async (refreshToken: string) => {
+            const clientId = process.env.SUPABASE_AUTH_GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID
+            const clientSecret = process.env.SUPABASE_AUTH_GOOGLE_SECRET || process.env.GOOGLE_CLIENT_SECRET
+
+            if (!clientId || !clientSecret) {
+                console.error('Google Client ID or Secret not found in environment variables')
+                return null
+            }
+
+            try {
+                const response = await fetch('https://oauth2.googleapis.com/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        client_id: clientId,
+                        client_secret: clientSecret,
+                        refresh_token: refreshToken,
+                        grant_type: 'refresh_token',
+                    }),
+                })
+
+                if (!response.ok) {
+                    const error = await response.json()
+                    console.error('Error refreshing token:', error)
+                    return null
+                }
+
+                const data = await response.json()
+                return data.access_token as string
+            } catch (error) {
+                console.error('Error refreshing token:', error)
+                return null
             }
         }
 
@@ -145,6 +202,7 @@ export async function syncToGoogleCalendar() {
         // 4. Criar eventos no Google Calendar para cada deliverable
         let successCount = 0
         let errorCount = 0
+        let tokenRefreshed = false
 
         for (const deliverable of deliverables) {
             try {
@@ -174,18 +232,21 @@ export async function syncToGoogleCalendar() {
                     colorId: '9', // Azul no Google Calendar
                 }
 
-                // Chamar API do Google Calendar
-                const response = await fetch(
-                    'https://www.googleapis.com/calendar/v3/calendars/primary/events',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${providerToken}`,
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(event),
+                // Tentar criar evento com o token atual
+                let response = await fetchGoogleCalendar(providerToken, event)
+
+                // Se falhar com 401 (Unauthorized) e tivermos refresh token, tentar renovar
+                if (response.status === 401 && providerRefreshToken && !tokenRefreshed) {
+                    console.log('Token expirado, tentando renovar...')
+                    const newToken = await refreshGoogleToken(providerRefreshToken)
+
+                    if (newToken) {
+                        providerToken = newToken
+                        tokenRefreshed = true
+                        // Tentar novamente com o novo token
+                        response = await fetchGoogleCalendar(providerToken, event)
                     }
-                )
+                }
 
                 if (response.ok) {
                     successCount++
@@ -218,5 +279,50 @@ export async function syncToGoogleCalendar() {
     } catch (error) {
         console.error('Unexpected error:', error)
         return { success: false, error: 'Erro inesperado ao sincronizar com Google Calendar' }
+    }
+}
+
+/**
+ * Atualiza o perfil do usuário
+ */
+export async function updateProfile(formData: FormData) {
+    try {
+        const supabase = await createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (!user) {
+            return { success: false, error: 'Usuário não autenticado' }
+        }
+
+        const fullName = formData.get('fullName') as string
+        const bio = formData.get('bio') as string
+        const avatarUrl = formData.get('avatarUrl') as string
+
+        const updates: any = {
+            updated_at: new Date().toISOString(),
+        }
+
+        if (fullName) updates.full_name = fullName
+        if (bio) updates.bio = bio
+        if (avatarUrl) updates.avatar_url = avatarUrl
+
+        const { error } = await supabase
+            .from('profiles')
+            .upsert({
+                id: user.id,
+                ...updates
+            })
+
+        if (error) {
+            console.error('Error updating profile:', error)
+            return { success: false, error: error.message }
+        }
+
+        revalidatePath('/settings')
+        revalidatePath('/dashboard') // Atualizar avatar no header/sidebar se houver
+        return { success: true }
+    } catch (error) {
+        console.error('Unexpected error:', error)
+        return { success: false, error: 'Erro inesperado ao atualizar perfil' }
     }
 }

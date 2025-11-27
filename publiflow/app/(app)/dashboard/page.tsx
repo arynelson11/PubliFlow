@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { TrendingUp, Package, DollarSign } from 'lucide-react'
-import { EngagementChart } from '@/components/engagement-chart'
+import { RevenueChart } from '@/components/revenue-chart'
 
 export default async function DashboardPage() {
     const supabase = await createClient()
@@ -22,6 +22,12 @@ export default async function DashboardPage() {
         .eq('status', 'active')
 
     const estimatedRevenue = activeDeals?.reduce((sum, deal) => sum + (Number(deal.estimated_value) || 0), 0) || 0
+
+    // Fetch Deals for Revenue Chart (All deals to allow filtering in component)
+    const { data: allDeals } = await supabase
+        .from('deals')
+        .select('estimated_value, updated_at, status')
+        .order('updated_at', { ascending: true })
 
     // Fetch Upcoming Deliverables
     const { data: upcomingDeliverables } = await supabase
@@ -77,10 +83,9 @@ export default async function DashboardPage() {
                 </div>
             </div>
 
-            {/* Engagement Chart */}
+            {/* Revenue Chart */}
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                <h2 className="text-xl font-semibold text-white mb-6">Engajamento dos Últimos 6 Meses</h2>
-                <EngagementChart />
+                <RevenueChart deals={allDeals || []} />
             </div>
 
             {/* Upcoming Deliverables Table */}
