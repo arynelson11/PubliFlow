@@ -168,16 +168,17 @@ export default async function LoginPage({
                         </form>
                     </TabsContent>
                 </Tabs>
-                {searchParams?.message && (
-                    <p className="mt-4 p-4 bg-red-800 text-white text-center rounded-lg text-sm">
-                        {searchParams.message}
-                    </p>
-                )}
             </div>
+
+            {searchParams?.message && (
+                <p className="mt-4 p-4 bg-red-800 text-white text-center rounded-lg text-sm max-w-md w-full">
+                    {searchParams.message}
+                </p>
+            )}
 
             <div className="mt-6 p-4 bg-gray-800 border border-gray-700 rounded-lg max-w-md text-center">
                 <p className="text-sm text-gray-400">
-                    ℹ️ Para ativar o Google OAuth, configure no Supabase Dashboard e adicione as credenciais em <code className="text-violet-400">.env.local</code>
+                    Teste grátis por 7 dias. Cancele quando quiser.
                 </p>
             </div>
         </div>
